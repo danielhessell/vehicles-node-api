@@ -8,4 +8,5 @@ export interface VehicleGateway {
     chassi: string,
     renavam: string
   ): Promise<Vehicle | null>;
+  save(vehicle: Vehicle): Promise<void>;
 }

@@ -63,4 +63,14 @@ export class Vehicle {
   static create(props: VehicleProps): Vehicle {
     return new Vehicle(props);
   }
+
+  update(props: Partial<VehicleProps>) {
+    if (props.placa) this.props.placa = props.placa;
+    if (props.chassi) this.props.chassi = props.chassi;
+    if (props.renavam) this.props.renavam = props.renavam;
+    if (props.modelo) this.props.modelo = props.modelo;
+    if (props.marca) this.props.marca = props.marca;
+    if (props.ano) this.props.ano = props.ano;
+    this._updatedAt = new Date();
+  }
 }

@@ -27,4 +27,11 @@ export class VehicleRepository implements VehicleGateway {
     if (!vehicle) return null;
     return VehicleMapper.toDomain(vehicle);
   }
+
+  async save(vehicle: Vehicle): Promise<void> {
+    await this.repository.updateOne(
+      { _id: vehicle.id },
+      { $set: { ...VehicleMapper.toPersistence(vehicle) } }
+    );
+  }
 }
