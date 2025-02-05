@@ -9,4 +9,5 @@ export interface VehicleGateway {
     renavam: string
   ): Promise<Vehicle | null>;
   save(vehicle: Vehicle): Promise<void>;
+  delete(id: string): Promise<void>;
 }

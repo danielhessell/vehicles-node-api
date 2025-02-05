@@ -34,4 +34,8 @@ export class VehicleRepository implements VehicleGateway {
       { $set: { ...VehicleMapper.toPersistence(vehicle) } }
     );
   }
+
+  async delete(id: string): Promise<void> {
+    await this.repository.deleteOne({ _id: id });
+  }
 }
