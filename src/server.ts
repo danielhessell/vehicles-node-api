@@ -6,6 +6,9 @@ import { routes } from "./routes";
 import { closeMongoConnection, openMongoConnection } from "./database";
 import { DomainError } from "./errors/domain.error";
 import { AppError } from "./errors/app.error";
+import { OpenApiGeneratorV3 } from "@asteasolutions/zod-to-openapi";
+import { ApiDoc } from "./config/doc";
+import swaggerUi from "swagger-ui-express";
 
 export class Server {
   async start() {
@@ -14,6 +17,27 @@ export class Server {
     server.use(cors());
     server.use(helmet());
     server.use("/api/v1", routes);
+
+    const generator = new OpenApiGeneratorV3(ApiDoc.definitions);
+    const openAPIDocument = generator.generateDocument({
+      openapi: "3.0.0",
+      info: {
+        title: "Vehicles API",
+        version: "1.0.0",
+        description: "Documentação do Vehicles API",
+        contact: {
+          name: "Daniel Hessel",
+          email: "danieldaniabreu@gmail.com",
+        },
+      },
+      servers: [
+        {
+          url: "http://localhost:8080/api/v1",
+          description: "Local server",
+        },
+      ],
+    });
+    server.use("/docs/v1", swaggerUi.serve, swaggerUi.setup(openAPIDocument));
 
     server.use(
       (
