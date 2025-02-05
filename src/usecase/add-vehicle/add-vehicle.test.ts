@@ -1,14 +1,14 @@
 import { expect } from "chai";
 import sinon from "sinon";
-import { AddVehicle } from "./add-vehicle";
 import { Vehicle } from "src/entity/vehicle.entity";
-import { AppError } from "src/errors/app.error";
+import { AddVehicle } from "./add-vehicle";
 
 describe("Add Vehicle", () => {
   it("should add a vehicle", async () => {
     const repository = {
       findByDocument: sinon.spy(),
       add: sinon.spy(),
+      findById: sinon.spy(),
     };
 
     const usecase = new AddVehicle(repository);
@@ -39,6 +39,7 @@ describe("Add Vehicle", () => {
     const repository = {
       findByDocument: sinon.spy(() => Promise.resolve(vehicle)),
       add: sinon.spy(),
+      findById: sinon.spy(),
     };
 
     const usecase = new AddVehicle(repository);
