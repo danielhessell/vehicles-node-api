@@ -9,6 +9,7 @@ describe("Add Vehicle", () => {
       findByDocument: sinon.spy(),
       add: sinon.spy(),
       findById: sinon.spy(),
+      save: sinon.spy(),
     };
 
     const usecase = new AddVehicle(repository);
@@ -40,6 +41,7 @@ describe("Add Vehicle", () => {
       findByDocument: sinon.spy(() => Promise.resolve(vehicle)),
       add: sinon.spy(),
       findById: sinon.spy(),
+      save: sinon.spy(),
     };
 
     const usecase = new AddVehicle(repository);
