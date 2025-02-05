@@ -1,0 +1,11 @@
+version: "3.7"
+
+services:
+  mongodb:
+    container_name: infosistemas-mongodb
+    image: mongo
+    restart: always
+    volumes:
+      - ./.docker/mongodb:/data/db
+    ports:
+      - 27017:27017
