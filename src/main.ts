@@ -1,3 +1,5 @@
+import "reflect-metadata";
+import "./container";
 import { Server } from "./server";
 
 (async () => {
