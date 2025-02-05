@@ -10,6 +10,7 @@ describe("Add Vehicle", () => {
       add: sinon.spy(),
       findById: sinon.spy(),
       save: sinon.spy(),
+      delete: sinon.spy(),
     };
 
     const usecase = new AddVehicle(repository);
@@ -42,6 +43,7 @@ describe("Add Vehicle", () => {
       add: sinon.spy(),
       findById: sinon.spy(),
       save: sinon.spy(),
+      delete: sinon.spy(),
     };
 
     const usecase = new AddVehicle(repository);
