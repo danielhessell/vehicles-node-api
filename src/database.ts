@@ -1,11 +1,12 @@
 import mongoose from "mongoose";
+import logger from "./config/logger";
 
 export const openMongoConnection = async () => {
   try {
     await mongoose.connect(process.env.MONGODB_URI as string);
-    console.log("DocumentDB connection established.");
+    logger.info("DocumentDB connection established.");
   } catch (err) {
-    console.log(`Error to open DocumentDB Connection: ${err}.`);
+    logger.error(`Error to open DocumentDB Connection: ${err}.`);
     return;
   }
 };
@@ -13,9 +14,9 @@ export const openMongoConnection = async () => {
 export const closeMongoConnection = async () => {
   try {
     await mongoose.connection.close();
-    console.log("DocumentDB connection closed.");
+    logger.info("DocumentDB connection closed.");
   } catch (err: any) {
-    console.log(`Error to close DocumentDB Connection: ${err}.`);
+    logger.error(`Error to close DocumentDB Connection: ${err}.`);
     return;
   }
 };

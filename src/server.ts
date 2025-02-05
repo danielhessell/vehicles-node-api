@@ -10,6 +10,7 @@ import { OpenApiGeneratorV3 } from "@asteasolutions/zod-to-openapi";
 import { ApiDoc } from "./config/doc";
 import swaggerUi from "swagger-ui-express";
 import { ValidError } from "./errors/valid.error";
+import logger from "./config/logger";
 
 export class Server {
   async start() {
@@ -17,7 +18,14 @@ export class Server {
     server.use(express.json());
     server.use(cors());
     server.use(helmet());
-    server.use("/api/v1", routes);
+    server.use(
+      "/api/v1",
+      (request: Request, _: Response, next: NextFunction) => {
+        logger.info(`Request: ${request.method} ${request.url}`);
+        next();
+      },
+      routes
+    );
 
     const generator = new OpenApiGeneratorV3(ApiDoc.definitions);
     const openAPIDocument = generator.generateDocument({
@@ -82,12 +90,12 @@ export class Server {
     await openMongoConnection();
 
     server.listen(process.env.PORT, () => {
-      console.log(`Server is running on port ${process.env.PORT}!`);
+      logger.info(`Server is running on port ${process.env.PORT}!`);
     });
   }
 
   async stop() {
     await closeMongoConnection();
-    console.log("Server is stopped.");
+    logger.info("Server is stopped.");
   }
 }

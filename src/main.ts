@@ -1,6 +1,7 @@
 import "reflect-metadata";
 import "./container";
 import { Server } from "./server";
+import logger from "./config/logger";
 
 enum ExitStatus {
   Failure = 1,
@@ -8,7 +9,7 @@ enum ExitStatus {
 }
 
 process.on("unhandledRejection", (reason, promise) => {
-  console.log(
+  logger.error(
     `App exiting due to an unhandled promise: ${promise} and reason: ${JSON.stringify(
       reason
     )}`
@@ -17,7 +18,7 @@ process.on("unhandledRejection", (reason, promise) => {
 });
 
 process.on("uncaughtException", (error) => {
-  console.log(
+  logger.error(
     `App exiting due to an uncaught exception: ${JSON.stringify(error)}`
   );
   process.exit(ExitStatus.Failure);
@@ -35,16 +36,16 @@ process.removeAllListeners("warning");
       process.on(exitSignal, async () => {
         try {
           await server.stop();
-          console.log("App exited with success");
+          logger.info("App exited with success");
           process.exit(ExitStatus.Success);
         } catch (error) {
-          console.log(`App exited with error: ${JSON.stringify(error)}`);
+          logger.error(`App exited with error: ${JSON.stringify(error)}`);
           process.exit(ExitStatus.Failure);
         }
       });
     }
   } catch (error) {
-    console.log(`App exited with error: ${JSON.stringify(error)}`);
+    logger.error(`App exited with error: ${JSON.stringify(error)}`);
     process.exit(ExitStatus.Failure);
   }
 })();
