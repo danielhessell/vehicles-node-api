@@ -9,6 +9,7 @@ import { AppError } from "./errors/app.error";
 import { OpenApiGeneratorV3 } from "@asteasolutions/zod-to-openapi";
 import { ApiDoc } from "./config/doc";
 import swaggerUi from "swagger-ui-express";
+import { ValidError } from "./errors/valid.error";
 
 export class Server {
   async start() {
@@ -58,6 +59,14 @@ export class Server {
           response.status(error.statusCode).json({
             status: error.status,
             message: error.message,
+          });
+          return;
+        }
+
+        if (error instanceof ValidError) {
+          response.status(error.statusCode).json({
+            status: error.status,
+            errors: error.errors,
           });
           return;
         }
