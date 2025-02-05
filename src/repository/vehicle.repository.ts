@@ -10,6 +10,12 @@ export class VehicleRepository implements VehicleGateway {
     await this.repository.create(VehicleMapper.toPersistence(vehicle));
   }
 
+  async findById(id: string): Promise<Vehicle | null> {
+    const vehicle = await this.repository.findById(id);
+    if (!vehicle) return null;
+    return VehicleMapper.toDomain(vehicle);
+  }
+
   async findByDocument(
     placa: string,
     chassi: string,

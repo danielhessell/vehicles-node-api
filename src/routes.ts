@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { AddVehicleController } from "./controller/add-vehicle.controller";
+import { FindVehicleController } from "./controller/find-vehicle.controller";
 
 export const routes = Router();
 
@@ -7,6 +8,7 @@ routes.get("/health", (_, response) => {
   response.status(200).json({ status: "OK" });
 });
 
+routes.get("/vehicles/:vehicleId", new FindVehicleController().handle);
 routes.post("/vehicles", new AddVehicleController().handle);
 
 routes.use((_, response) => {
