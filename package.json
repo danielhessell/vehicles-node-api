@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "npx tsx --env-file=.env --watch src/main.ts",
-    "test": "npx mocha -r ts-node/register -r ./mocha.setup.ts '**/*.test.ts'"
+    "test": "npx mocha -r ts-node/register -r ./mocha.setup.ts 'src/**/*.test.ts'"
   },
   "keywords": [],
   "author": "",
