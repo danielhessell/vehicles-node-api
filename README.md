@@ -98,7 +98,7 @@ The server will start on port 8080. Go to docs http://localhost:8080/docs/v1.
 
 ### :heavy_check_mark: How to run tests
 
-This project has unit and integration testing. Run `npm test`.
+This project has unit testing. Run `npm test`.
 
 ## :tada: How to contribute to the project
 
