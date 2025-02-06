@@ -1,4 +1,8 @@
 import { ObjectId } from "bson";
+import { DomainError } from "src/errors/domain.error";
+import { validarChassi } from "src/util/validate-chassi.util";
+import { validatePlaca } from "src/util/validate-plate.util";
+import { validateRenavam } from "src/util/validate-renavam.util";
 
 interface VehicleProps {
   id?: string;
@@ -22,6 +26,7 @@ export class Vehicle {
     this._id = props.id ?? new ObjectId().toString();
     this._createdAt = props.createdAt ?? new Date();
     this._updatedAt = props.updatedAt ?? new Date();
+    this.validate();
   }
 
   get id(): string {
@@ -58,6 +63,20 @@ export class Vehicle {
 
   get updatedAt(): Date {
     return this._updatedAt;
+  }
+
+  validate() {
+    if (!validatePlaca(this.props.placa)) {
+      throw new DomainError("Placa inválida");
+    }
+
+    if (!validarChassi(this.props.chassi)) {
+      throw new DomainError("Chassi inválido");
+    }
+
+    if (!validateRenavam(this.props.renavam)) {
+      throw new DomainError("Renavam inválido");
+    }
   }
 
   static create(props: VehicleProps): Vehicle {
