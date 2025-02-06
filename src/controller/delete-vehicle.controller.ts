@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { ApiDoc } from "src/config/doc";
 import { z } from "src/config/zod";
+import { ValidError } from "src/errors/valid.error";
 import { DeleteVehicle } from "src/usecase/delete-vehicle/delete-vehicle";
 import { container } from "tsyringe";
 
@@ -26,12 +27,19 @@ ApiDoc.registerPath({
 
 export class DeleteVehicleController {
   async handle(request: Request, response: Response) {
-    const vehicleId = request.params.vehicleId;
+    const paramSchema = schema.safeParse(request.params);
+
+    if (paramSchema.success === false) {
+      throw new ValidError(
+        paramSchema.error.issues.map((issue) => issue.message),
+        422
+      );
+    }
 
     const usecase = container.resolve(DeleteVehicle);
 
     await usecase.execute({
-      id: vehicleId,
+      id: paramSchema.data.vehicleId,
     });
 
     response.sendStatus(204);

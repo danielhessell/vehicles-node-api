@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { ApiDoc } from "src/config/doc";
 import { z } from "src/config/zod";
+import { ValidError } from "src/errors/valid.error";
 import { FindVehicle } from "src/usecase/find-vehicle/find-vehicle";
 import { VehicleViewModel } from "src/view-model/vehicle.view-model";
 import { container } from "tsyringe";
@@ -42,11 +43,20 @@ ApiDoc.registerPath({
 
 export class FindVehicleController {
   async handle(request: Request, response: Response) {
-    const vehicleId = request.params.vehicleId;
+    const paramSchema = schema.safeParse(request.params);
+
+    if (paramSchema.success === false) {
+      throw new ValidError(
+        paramSchema.error.issues.map((issue) => issue.message),
+        422
+      );
+    }
 
     const usecase = container.resolve(FindVehicle);
 
-    const { vehicle } = await usecase.execute({ id: vehicleId });
+    const { vehicle } = await usecase.execute({
+      id: paramSchema.data.vehicleId,
+    });
 
     response.status(200).json({ vehicle: VehicleViewModel.toHTTP(vehicle) });
   }
