@@ -2,6 +2,7 @@ import { expect } from "chai";
 import sinon from "sinon";
 import { Vehicle } from "src/entity/vehicle.entity";
 import { AddVehicle } from "./add-vehicle";
+import { VehicleGateway } from "src/gateway/vehicle.gateway";
 
 describe("Add Vehicle", () => {
   it("should add a vehicle", async () => {
@@ -11,6 +12,7 @@ describe("Add Vehicle", () => {
       findById: sinon.spy(),
       save: sinon.spy(),
       delete: sinon.spy(),
+      search: sinon.spy(),
     };
 
     const usecase = new AddVehicle(repository);
@@ -44,6 +46,7 @@ describe("Add Vehicle", () => {
       findById: sinon.spy(),
       save: sinon.spy(),
       delete: sinon.spy(),
+      search: sinon.spy(),
     };
 
     const usecase = new AddVehicle(repository);

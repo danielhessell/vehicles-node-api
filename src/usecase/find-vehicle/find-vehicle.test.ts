@@ -20,6 +20,7 @@ describe("Find Vehicle", () => {
       findById: sinon.spy(() => Promise.resolve(vehicle)),
       save: sinon.spy(),
       delete: sinon.spy(),
+      search: sinon.spy(),
     };
 
     const usecase = new FindVehicle(repository);
@@ -36,6 +37,7 @@ describe("Find Vehicle", () => {
       findById: sinon.spy(() => Promise.resolve(null)),
       save: sinon.spy(),
       delete: sinon.spy(),
+      search: sinon.spy(),
     };
 
     const usecase = new FindVehicle(repository);
